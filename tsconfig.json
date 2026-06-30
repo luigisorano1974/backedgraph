@@ -14,6 +14,6 @@
     "rootDir": "src",
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "../backend/src/schema.ts", "../backend/src/resolvers.ts", "../backend/src/firebase.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
