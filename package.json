@@ -4,7 +4,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "codegen": "graphql-codegen --config codegen.json",
+    "codegen": "graphql-codegen --config codegen.ts",
     "dev": "tsx watch src/index.ts",
     "build": "npm run codegen && tsc",
     "start": "node dist/index.js"

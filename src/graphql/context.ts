@@ -1,9 +1,9 @@
 import type { Request } from "express";
-import { firebaseAuth } from "../infrastructure/firebase.js";
-import { UserRepository } from "../infrastructure/repositories/user.repository.js";
-import { UserService } from "../domain/user/user.service.js";
+import { firebaseAuth } from "../config/firebase.js";
+import { UserRepository } from "../modules/users/user.repository.js";
+import { UserService } from "../modules/users/user.service.js";
 import { AuthenticationError, ForbiddenError } from "../utils/error.js";
-import { AuthenticatedUser, AuthProvider, UserPayload} from "../domain/user/user.model.js";
+import { AuthenticatedUser, AuthProvider, UserPayload} from "../modules/users/user.model.js";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 
@@ -101,7 +101,7 @@ async function getAuthenticatedUser(token: string | null): Promise<Authenticated
 
   return {
     uid: decodedToken.uid,
-    email: decodedToken.email,
+    email: decodedToken.email ?? null,
     email_verified: decodedToken.email_verified === true,
     provider,
     firebase: decodedToken
@@ -124,9 +124,9 @@ export async function buildContext({ req }: { req: Request }): Promise<GraphQLCo
   const syncedProfile = await userService.syncEmailVerificationStatus(authUser, profile);
 
   return {
-      auth: { profile: syncedProfile, authUser },
-      services: { userService: userService },
-      requestMeta
-    };
+    auth: { profile: syncedProfile, authUser: authUser },
+    services: { userService: userService },
+    requestMeta
+  };
 }
 
